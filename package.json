@@ -1,0 +1,38 @@
+{
+  "name": "urban-waddle",
+  "version": "1.0.0",
+  "description": "A scalable tiny url service",
+  "main": "index.js",
+  "dependencies": {
+    "catbox-redis": "^4.1.0",
+    "eslint": "^4.18.1",
+    "good": "^7.3.0",
+    "good-console": "^6.4.1",
+    "good-squeeze": "^5.0.2",
+    "hapi": "^16.6.2",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "pm2": "^2.10.4",
+    "redis": "^2.8.0",
+    "sequelize": "^4.35.0",
+    "sequelize-cli": "^4.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "lab": "^14.3.1",
+    "sinon": "^4.4.2"
+  },
+  "scripts": {
+    "kstart": "sequelize db:migrate && node src/server.js",
+    "start": "node_modules/.bin/pm2 start -i max src/server.js",
+    "stop": "node_modules/.bin/pm2 stop all",
+    "lint": "eslint . --ignore-path .gitignore",
+    "test-coverage:html": "NODE_ENV=test lab -v -t 85 -r html -o ./coverage/coverage.html",
+    "test": "npm run lint && NODE_ENV=test sequelize db:migrate:undo:all && NODE_ENV=test sequelize db:migrate && NODE_ENV=test lab -v -C -t 85 -r console -o stdout -r html -o ./coverage/coverage.html",
+    "circleciTest": "npm run lint && NODE_ENV=circleci_test sequelize db:migrate && lab -e circleci_test -v -t 70"
+  },
+  "author": "Ananya",
+  "license": "ISC"
+}
